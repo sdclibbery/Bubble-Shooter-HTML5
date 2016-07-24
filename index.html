@@ -1,0 +1,115 @@
+<html>
+<head>
+  <title>drape</title>
+  <style>
+    body {
+      font-family: helvetica, arial;
+      background-color: dimgray;
+      margin:0px;
+    }
+    .fullscreen {
+      position:absolute;
+      top:0%;
+      left:0%;
+      width:100%;
+      height:100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" class="fullscreen" style="width:100%; height:100%;"></canvas>
+  <div onclick="window.export()" ontouchstart="window.export()" style="position:absolute; top:30px; left:30px; background-color:#c0c0c0; border:black 1px solid; padding:6px;">Export</div>
+<script data-main="main" src="require.js">
+/* TODO
+
+x 3d canvas, basic webgl setup
+x simple mesh triangulation of a heightmap function
+x arcball viewing
+ x view matrix
+ x drag/touch to change angles
+  x accumulate angles
+x lighting and colours
+o New plan
+ o Height map becomes surface map with basis vectors and curvature.
+ o Then take a sample grid and perturb it based on curvature and feature detection (and tool size/shape?)
+ o Then generate vector field and join up into tool path.
+ o Then triangulate toolpath to give renderable mesh.
+! Return surface info at each 2D point, not just height:
+x Rename height module
+x Rename: tangent->cutDir, cotangent to perpDir
+x Return basis and curvature for cube
+x tests
+x Visualise cut direction vector field
+ x Add arrow heads
+x Refactor out duplication in draw* modules
+ x Shader loading etc
+ x Buffer setup
+ x Camera module
+x Pinch to move camera in/out
+ x touch module should export pan / pinch etc events directly (ie touch.pan not touch.start/move etc)
+ x Proper multitouch handling
+ x Pinch zoom
+x Return basis and curvature for sphere
+x Translate
+x Sweep
+ o Takes a profile and a path
+ o For each point, find the line-of-profile
+ x Height from profile evaluation on line-of-profile
+ x CutDir from path
+ x Perp from profile gives the normal
+ x CutCurvature from profile
+ x PerpCurvature from path
+ x lerp needs to min/max. curvature hw/hh are wrong way round
+x Numerical tests for normal and curvatures
+ x Normal test
+ x Fix ellipse normal
+ x Curvature test
+ x Fix ellipse curvature
+ x Fix sphere cut curvature!
+x Sweep takes another arg giving the scale of the profile along the path
+x Break primitives.js out into appropriate modules
+x Path tests at the seam underneath the sweep function
+x Scaling along the path _should_ change the cutDir
+x cutdir is 2D
+x Remove normal and curvatures; these should becalculated later
+x Bring in bezier.js
+x Set up a bezier path function
+x ! power(0): cutdir does not curve round end caps !! SHOULD NOT BE ANY END CAPS!
+x Unit tests for bezier
+x Simple toolpath generation: simple criss/cross for now
+ x Toolpath module
+ x Return Array of toolpath points
+  x Stub array for now
+  x Cutlines from toolpath
+ x Generate criss-cross toolpath for actual surface
+x Resurrect old surface/cutdir rendering as a surface visualisation aid
+ x Calculate normals for rendering
+ x cutDir arrows visualisation
+x draw/lines and draw/mesh should be instantiable and not have static data!
+x GCode generation from toolpath
+ x Button to export
+ x Save a file
+ x Generate GCode from toolpath
+* Generate tool path that follows surface features
+ * Property tests
+  * All points on the surface are within a half-tool width of some part of the toolpath
+  * All points on the surface are cut to their correct height to within some tolerance
+  * The toolpath points along the cutdirection at every point on the surface to within some tolerance
+  * On all points the normal of the cut surface is close to the normal of the surface
+  * On all points the curvature of the cut surface is close to the curvature of the surface
+  * Something about length or time of toolpath?
+* ? cutdir is same all the way across the profile section; it should surely turn in less near the centreline? ?? Is this true?
+? Editing...
+* Modify sampling of toolpath: Coalesce samples that have low curvature
+ * Property tests
+* Add samples where curvature is high
+ * Property tests
+* Find discontinuities and increase sampling(?)
+ * Property tests
+* Write info on tool, coord systems etc into the GCode
+* Two finger drag to pan
+
+*/
+</script>
+</body>
+</html>
