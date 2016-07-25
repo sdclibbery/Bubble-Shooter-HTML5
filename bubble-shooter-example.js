@@ -156,8 +156,8 @@ window.onload = function() {
         bubbleimage = images[0];
 
         // Add mouse events
-        canvas.addEventListener("mousemove", onMouseMove);
-        canvas.addEventListener("mousedown", onMouseDown);
+//        canvas.addEventListener("mousemove", onMouseMove);
+//        canvas.addEventListener("mousedown", onMouseDown);
         canvas.addEventListener("touchend", onTouchEnd);
 
         // Initialize the two-dimensional tile array
