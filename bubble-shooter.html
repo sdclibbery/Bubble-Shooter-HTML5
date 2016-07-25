@@ -4,11 +4,23 @@
 <meta charset="UTF-8">
 <title>Bubbles</title>
 <script type='text/javascript' src='bubble-shooter-example.js'></script>
+<style>
+@media all and (orientation:portrait) {
+  .full-size {
+    width:100%
+  }
+}
+@media all and (orientation:landscape) {
+  .full-size {
+    height:100%
+  }
+}
+</style>
 </head>
 
 <body style="overflow: hidden; margin:0; padding:0">
 
-<canvas id="viewport" width="628" height="628" style="overflow: hidden; margin:0; padding:0; width:100%;"></canvas></div>
+<canvas id="viewport" class="full-size" width="628" height="628" style="overflow: hidden; margin:0; padding:0;"></canvas></div>
 </body>
 
 </html>
