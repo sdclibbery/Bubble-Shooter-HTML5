@@ -158,7 +158,7 @@ window.onload = function() {
         // Add mouse events
         canvas.addEventListener("mousemove", onMouseMove);
         canvas.addEventListener("mousedown", onMouseDown);
-        canvas.addEventListener("touchstart", onTouchStart);
+        canvas.addEventListener("touchend", onTouchEnd);
 
         // Initialize the two-dimensional tile array
         for (var i=0; i<level.columns; i++) {
@@ -1049,7 +1049,7 @@ window.onload = function() {
             newGame();
         }
     }
-    function onTouchStart(e) {
+    function onTouchEnd(e) {
       onMouseMove(e.changedTouches[0]);
       onMouseDown(e.changedTouches[0]);
     }
