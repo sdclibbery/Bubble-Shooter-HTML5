@@ -34,11 +34,11 @@ window.onload = function() {
 
     // Level
     var level = {
-        x: 4,           // X position
+        x: 44,           // X position
         y: 83,          // Y position
         width: 0,       // Width, gets calculated
         height: 0,      // Height, gets calculated
-        columns: 15,    // Number of tile columns
+        columns: 13,    // Number of tile columns
         rows: 14,       // Number of tile rows
         tilewidth: 40,  // Visual width of a tile
         tileheight: 40, // Visual height of a tile
