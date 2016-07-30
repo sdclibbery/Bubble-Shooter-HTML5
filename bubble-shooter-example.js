@@ -45,7 +45,7 @@ window.onload = function() {
         rowheight: 34,  // Height of a row
         radius: 15,     // Bubble collision radius
         tiles: [],      // The two-dimensional tile array
-        dropPeriod: 4,  // The number of non-cluster shots between the bubbles dropping down
+        dropPeriod: 3,  // The number of non-cluster shots between the bubbles dropping down
     };
 
     // Define a tile class
