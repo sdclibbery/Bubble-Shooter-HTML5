@@ -44,7 +44,8 @@ window.onload = function() {
         tileheight: 40, // Visual height of a tile
         rowheight: 34,  // Height of a row
         radius: 15,     // Bubble collision radius
-        tiles: []       // The two-dimensional tile array
+        tiles: [],      // The two-dimensional tile array
+        dropPeriod: 4,  // The number of non-cluster shots between the bubbles dropping down
     };
 
     // Define a tile class
@@ -498,7 +499,7 @@ window.onload = function() {
 
         // No clusters found
         turncounter++;
-        if (turncounter >= 5) {
+        if (turncounter >= level.dropPeriod) {
             // Add a row of bubbles
             addBubbles();
             turncounter = 0;
