@@ -34,7 +34,7 @@ window.onload = function() {
 
     // Level
     var level = {
-        x: 44,           // X position
+        x: 44,          // X position
         y: 83,          // Y position
         width: 0,       // Width, gets calculated
         height: 0,      // Height, gets calculated
@@ -43,7 +43,7 @@ window.onload = function() {
         tilewidth: 40,  // Visual width of a tile
         tileheight: 40, // Visual height of a tile
         rowheight: 34,  // Height of a row
-        radius: 20,     // Bubble collision radius
+        radius: 15,     // Bubble collision radius
         tiles: []       // The two-dimensional tile array
     };
 
@@ -256,6 +256,9 @@ window.onload = function() {
     function stateShootBubble(dt) {
         // Bubble is moving
 
+        var lastX = player.bubble.x;
+        var lastY = player.bubble.y;
+
         // Move the bubble in the direction of the mouse
         player.bubble.x += dt * player.bubble.speed * Math.cos(degToRad(player.bubble.angle));
         player.bubble.y += dt * player.bubble.speed * -1*Math.sin(degToRad(player.bubble.angle));
@@ -277,6 +280,15 @@ window.onload = function() {
             player.bubble.y = level.y;
             snapBubble();
             return;
+        }
+
+        // If we've moved inside an occupied square, snap back to the last pos
+        var gridpos = getSnappedGridPosition(player.bubble.x, player.bubble.y);
+        if (level.tiles[gridpos.x][gridpos.y].type != -1) {
+          player.bubble.x = lastX;
+          player.bubble.y = lastY;
+          snapBubble();
+          return;
         }
 
         // Collisions with other tiles
@@ -413,13 +425,12 @@ window.onload = function() {
                 }
             }
         }
-    }
+      }
 
-    // Snap bubble to the grid
-    function snapBubble() {
+      function getSnappedGridPosition(x, y) {
         // Get the grid position
-        var centerx = player.bubble.x + level.tilewidth/2;
-        var centery = player.bubble.y + level.tileheight/2;
+        var centerx = x + level.tilewidth/2;
+        var centery = y + level.tileheight/2;
         var gridpos = getGridPosition(centerx, centery);
 
         // Make sure the grid position is valid
@@ -438,6 +449,14 @@ window.onload = function() {
         if (gridpos.y >= level.rows) {
             gridpos.y = level.rows - 1;
         }
+
+        return gridpos;
+      }
+
+      // Snap bubble to the grid
+      function snapBubble() {
+        // Get the grid position
+        var gridpos = getSnappedGridPosition(player.bubble.x, player.bubble.y);
 
         // Check if the tile is empty
         var addtile = false;
@@ -903,7 +922,6 @@ window.onload = function() {
         createLevel();
 
         // Init the next bubble and set the current bubble
-        nextBubble();
         nextBubble();
     }
 
