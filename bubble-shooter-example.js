@@ -35,14 +35,14 @@ window.onload = function() {
     // Level
     var level = {
         x: 44,          // X position
-        y: 83,          // Y position
+        y: 43,          // Y position
         width: 0,       // Width, gets calculated
         height: 0,      // Height, gets calculated
-        columns: 13,    // Number of tile columns
-        rows: 14,       // Number of tile rows
-        tilewidth: 40,  // Visual width of a tile
-        tileheight: 40, // Visual height of a tile
-        rowheight: 34,  // Height of a row
+        columns: 10,     // Number of tile columns
+        rows: 12,       // Number of tile rows
+        tilewidth: 50,  // Visual width of a tile
+        tileheight: 50, // Visual height of a tile
+        rowheight: 50*34/40,  // Height of a row
         radius: 15,     // Bubble collision radius
         tiles: [],      // The two-dimensional tile array
         dropPeriod: 3,  // The number of non-cluster shots between the bubbles dropping down
@@ -780,22 +780,23 @@ window.onload = function() {
     // Draw a frame around the game
     function drawFrame() {
         // Draw background
-        context.fillStyle = "#e8eaec";
+        context.fillStyle = "#303030";
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw header
+        // Draw walls
         context.fillStyle = "#303030";
-        context.fillRect(0, 0, canvas.width, 79);
+        context.fillRect(0, 0, level.x, canvas.height);
+        context.fillRect(canvas.width - level.x, 0, level.x, canvas.height);
 
         // Draw title
         context.fillStyle = "#ffffff";
         context.font = "24px Verdana";
-        context.fillText("Bubble Shooter Example - Rembound.com", 10, 37);
+        context.fillText("Bubbles", 10, 27);
 
         // Display fps
-        context.fillStyle = "#ffffff";
-        context.font = "12px Verdana";
-        context.fillText("Fps: " + fps, 13, 57);
+//        context.fillStyle = "#ffffff";
+//        context.font = "12px Verdana";
+//        context.fillText("Fps: " + fps, 13, 37);
     }
 
     // Render tiles
