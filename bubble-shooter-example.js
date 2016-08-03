@@ -18,6 +18,15 @@
 // http://rembound.com/articles/bubble-shooter-game-tutorial-with-html5-and-javascript
 // ------------------------------------------------------------------------
 
+// TODO
+// Push down but dont add new rows; top of level must move down too
+// Series of levels
+//  Define levels
+//  Display current level onscreen
+//  Choice of level
+//  Remember level
+// Bug: checks failure before success when making a cluster on the bottom row
+
 // The function gets called when the window is fully loaded
 window.onload = function() {
     // Get the canvas and context
@@ -922,7 +931,7 @@ window.onload = function() {
 
         // Create the level
         //createRandomLevel();
-        createHardLevel(4);
+        createHardLevel(5);
 
         // Init the next bubble and set the current bubble
         nextBubble();
