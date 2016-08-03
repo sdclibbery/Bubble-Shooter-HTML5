@@ -45,7 +45,7 @@ window.onload = function() {
         rowheight: 50*34/40,  // Height of a row
         radius: 15,     // Bubble collision radius
         tiles: [],      // The two-dimensional tile array
-        dropPeriod: 3,  // The number of non-cluster shots between the bubbles dropping down
+        dropPeriod: 8,  // The number of non-cluster shots between the bubbles dropping down
     };
 
     // Define a tile class
@@ -87,7 +87,7 @@ window.onload = function() {
                             [[1, 0], [1, 1], [0, 1], [-1, 0], [0, -1], [1, -1]]];  // Odd row tiles
 
     // Number of different colors
-    var bubblecolors = 7;
+    var bubblecolors = 8;
 
     // Game states
     var gamestates = { init: 0, ready: 1, shootbubble: 2, removecluster: 3, gameover: 4 };
@@ -921,14 +921,33 @@ window.onload = function() {
         setGameState(gamestates.ready);
 
         // Create the level
-        createLevel();
+        //createRandomLevel();
+        createHardLevel(4);
 
         // Init the next bubble and set the current bubble
         nextBubble();
     }
 
+    // Create a really hard level
+    function createHardLevel(difficulty) {
+      var pattern = [
+        [7,1,2],
+        [6,3,4],
+        [7,5,0],
+        [6,1,2],
+        [7,3,4],
+        [6,5,0],
+      ];
+      for (var j=0; j<level.rows; j++) {
+          for (var i=0; i<level.columns; i++) {
+            var patternRow = pattern[j%6];
+            level.tiles[i][j].type = j<difficulty ? patternRow[i % patternRow.length] : -1;
+          }
+        }
+    }
+
     // Create a random level
-    function createLevel() {
+    function createRandomLevel() {
         // Create a level with random tiles
         for (var j=0; j<level.rows; j++) {
             var randomtile = randRange(0, bubblecolors-1);
