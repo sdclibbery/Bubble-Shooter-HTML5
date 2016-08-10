@@ -491,17 +491,17 @@ window.onload = function() {
             // Set the tile
             level.tiles[gridpos.x][gridpos.y].type = player.bubble.tiletype;
 
-            // Check for game over
-            if (checkGameOver()) {
-                return;
-            }
-
             // Find clusters
             cluster = findCluster(gridpos.x, gridpos.y, true, true, false);
 
             if (cluster.length >= 3) {
                 // Remove the cluster
                 setGameState(gamestates.removecluster);
+                return;
+            }
+
+            // Check for game over
+            if (checkGameOver()) {
                 return;
             }
         }
