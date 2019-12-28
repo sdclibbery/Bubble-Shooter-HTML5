@@ -19,6 +19,7 @@
 // ------------------------------------------------------------------------
 
 // TODO
+// Bubbles actually pop
 // Push down but dont add new rows; top of level must move down too
 // Series of levels
 //  Define levels
@@ -47,7 +48,7 @@ window.onload = function() {
         y: 43,          // Y position
         width: 0,       // Width, gets calculated
         height: 0,      // Height, gets calculated
-        columns: 10,     // Number of tile columns
+        columns: 8,     // Number of tile columns
         rows: 12,       // Number of tile rows
         tilewidth: 50,  // Visual width of a tile
         tileheight: 50, // Visual height of a tile
