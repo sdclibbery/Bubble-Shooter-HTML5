@@ -26,6 +26,7 @@
 //  Display current level onscreen
 //  Choice of level
 //  Remember level
+// Show indicator when level is about to drop
 // Bug: checks failure before success when making a cluster on the bottom row
 
 // The function gets called when the window is fully loaded
@@ -372,7 +373,7 @@ window.onload = function() {
                     tilesleft = true;
 
                     // Alpha animation
-                    tile.alpha -= dt * 15;
+                    tile.alpha -= dt * 10;
                     if (tile.alpha < 0) {
                         tile.alpha = 0;
                     }
@@ -393,11 +394,11 @@ window.onload = function() {
                         tilesleft = true;
 
                         // Accelerate dropped tiles
-                        tile.velocity += dt * 700;
+                        tile.velocity += dt * 70;
                         tile.shift += dt * tile.velocity;
 
                         // Alpha animation
-                        tile.alpha -= dt * 8;
+                        tile.alpha -= dt * 5;
                         if (tile.alpha < 0) {
                             tile.alpha = 0;
                         }
