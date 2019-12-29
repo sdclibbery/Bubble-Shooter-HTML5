@@ -19,14 +19,15 @@
 // ------------------------------------------------------------------------
 
 // TODO
-// Bubbles actually pop
 // Push down but dont add new rows; top of level must move down too
+ // Do by moving top of level down instead of adding new row of wall tiles
 // Series of levels
 //  Define levels
 //  Display current level onscreen
 //  Choice of level
 //  Remember level
 // Show indicator when level is about to drop
+// Background tileset
 // Bug: checks failure before success when making a cluster on the bottom row
 
 // The function gets called when the window is fully loaded
