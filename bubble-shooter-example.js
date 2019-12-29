@@ -19,12 +19,12 @@
 // ------------------------------------------------------------------------
 
 // TODO
+// Shoot bubble on press not release
+// Bug: checks failure before success when making a cluster on the bottom row
 // Series of levels
-//  Define levels
 //  Display current level onscreen
 //  Choice of level
 //  Remember level
-// Bug: checks failure before success when making a cluster on the bottom row
 // Background tileset
 
 // The function gets called when the window is fully loaded
@@ -173,7 +173,7 @@ window.onload = function() {
         // Add mouse events
 //        canvas.addEventListener("mousemove", onMouseMove);
 //        canvas.addEventListener("mousedown", onMouseDown);
-        canvas.addEventListener("touchend", onTouchEnd);
+        canvas.addEventListener("touchstart", onTouchStart);
 
         // Initialize the two-dimensional tile array
         for (var i=0; i<level.columns; i++) {
@@ -970,11 +970,7 @@ window.onload = function() {
 
         // Create the level
         //createRandomLevel();
-console.log(window.location.href);
-console.log(new URL(window.location.href).hash.substring(1));
-console.log(parseInt(new URL(window.location.href).hash.substring(1), 10));
         var difficulty = parseInt(new URL(window.location.href).hash.substring(1), 10) || 15;
-console.log(difficulty);
         createHardLevel(difficulty);
 
         // Init the next bubble and set the current bubble
@@ -1151,7 +1147,8 @@ console.log(difficulty);
             newGame();
         }
     }
-    function onTouchEnd(e) {
+
+    function onTouchStart(e) {
       onMouseMove(e.changedTouches[0]);
       onMouseDown(e.changedTouches[0]);
     }
