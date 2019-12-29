@@ -970,7 +970,12 @@ window.onload = function() {
 
         // Create the level
         //createRandomLevel();
-        createHardLevel(5);
+console.log(window.location.href);
+console.log(new URL(window.location.href).hash.substring(1));
+console.log(parseInt(new URL(window.location.href).hash.substring(1), 10));
+        var difficulty = parseInt(new URL(window.location.href).hash.substring(1), 10) || 15;
+console.log(difficulty);
+        createHardLevel(difficulty);
 
         // Init the next bubble and set the current bubble
         nextBubble();
@@ -978,6 +983,8 @@ window.onload = function() {
 
     // Create a really hard level
     function createHardLevel(difficulty) {
+      if (difficulty < 1) { difficulty = 1; }
+      if (difficulty > 30) { difficulty = 30; }
       var pattern = [
         [7,1,2],
         [6,3,4],
@@ -986,10 +993,18 @@ window.onload = function() {
         [7,3,4],
         [6,5,0],
       ];
+      var rows = Math.floor(difficulty / 3);
+      var fill = difficulty % 3;
       for (var j=0; j<level.rows; j++) {
+          var patternRow = pattern[j%6];
           for (var i=0; i<level.columns; i++) {
-            var patternRow = pattern[j%6];
-            level.tiles[i][j].type = j<difficulty ? patternRow[i % patternRow.length] : -1;
+            if (j<rows) {
+              level.tiles[i][j].type = patternRow[i % patternRow.length];
+            } else if (j == rows) {
+              level.tiles[i][j].type = (i%3 < fill) ? patternRow[i % patternRow.length] : -1;
+            } else {
+              level.tiles[i][j].type = -1;
+            }
           }
         }
     }
