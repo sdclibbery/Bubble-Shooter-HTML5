@@ -263,6 +263,7 @@ window.onload = function() {
         } else if (gamestate == gamestates.shootbubble) {
             // Bubble is moving
             stateShootBubble(dt);
+            dropindicatorcolumn = -1;
         } else if (gamestate == gamestates.removecluster) {
             // Remove cluster and drop tiles
             stateRemoveCluster(dt);
@@ -443,6 +444,7 @@ window.onload = function() {
 
                 if (tilefound) {
                     setGameState(gamestates.ready);
+                    dropindicatorcolumn = 0;
                 } else {
                     // No tiles left, game over
                     setGameState(gamestates.gameover);
@@ -536,6 +538,7 @@ window.onload = function() {
         // Next bubble
         nextBubble();
         setGameState(gamestates.ready);
+        dropindicatorcolumn = 0;
     }
 
     function checkGameOver() {
@@ -963,6 +966,7 @@ window.onload = function() {
 
         // Set the gamestate to ready
         setGameState(gamestates.ready);
+        dropindicatorcolumn = 0;
 
         // Create the level
         //createRandomLevel();
