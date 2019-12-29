@@ -373,7 +373,7 @@ window.onload = function() {
                     tilesleft = true;
 
                     // Alpha animation
-                    tile.alpha -= dt * 10;
+                    tile.alpha -= dt * 15;
                     if (tile.alpha < 0) {
                         tile.alpha = 0;
                     }
@@ -398,7 +398,7 @@ window.onload = function() {
                         tile.shift += dt * tile.velocity;
 
                         // Alpha animation
-                        tile.alpha -= dt * 5;
+                        //tile.alpha -= dt * 5;
                         if (tile.alpha < 0) {
                             tile.alpha = 0;
                         }
@@ -831,7 +831,7 @@ window.onload = function() {
                     context.globalAlpha = tile.alpha;
 
                     // Draw the tile using the color
-                    drawBubble(coord.tilex, coord.tiley + shift, tile.type);
+                    drawBubble(coord.tilex, coord.tiley + shift, tile.type, tile.alpha);
 
                     context.restore();
                 }
@@ -874,11 +874,11 @@ window.onload = function() {
         context.stroke();
 
         // Draw the next bubble
-        drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype);
+        drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype, 1);
 
         // Draw the bubble
         if (player.bubble.visible) {
-            drawBubble(player.bubble.x, player.bubble.y, player.bubble.tiletype);
+            drawBubble(player.bubble.x, player.bubble.y, player.bubble.tiletype, 1);
         }
 
     }
@@ -912,12 +912,13 @@ window.onload = function() {
 
 
     // Draw the bubble
-    function drawBubble(x, y, index) {
+    function drawBubble(x, y, index, pop) {
         if (index < 0 || index >= bubblecolors)
             return;
 
         // Draw the bubble sprite
-        context.drawImage(bubbleimage, index * 40, 0, 40, 40, x, y, level.tilewidth, level.tileheight);
+        var popSize = level.tilewidth * (2/(pop+1) - 1);
+        context.drawImage(bubbleimage, index * 40, 0, 40, 40, x-popSize/2, y-popSize/2, level.tilewidth+popSize, level.tileheight+popSize);
     }
 
     // Start a new game
