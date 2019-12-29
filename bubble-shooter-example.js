@@ -20,7 +20,6 @@
 
 // TODO
 // Push down but dont add new rows; top of level must move down too
- // Do by moving top of level down instead of adding new row of wall tiles
 // Series of levels
 //  Define levels
 //  Display current level onscreen
@@ -59,6 +58,8 @@ window.onload = function() {
         tiles: [],      // The two-dimensional tile array
         dropPeriod: 8,  // The number of non-cluster shots between the bubbles dropping down
     };
+
+    var wall = 99;
 
     // Define a tile class
     var Tile = function(x, y, type, shift) {
@@ -423,7 +424,8 @@ window.onload = function() {
                 var tilefound = false
                 for (var i=0; i<level.columns; i++) {
                     for (var j=0; j<level.rows; j++) {
-                        if (level.tiles[i][j].type != -1) {
+                      var tile = level.tiles[i][j];
+                        if (tile.type != -1 && tile.type != wall) {
                             tilefound = true;
                             break;
                         }
@@ -531,7 +533,8 @@ window.onload = function() {
         // Check for game over
         for (var i=0; i<level.columns; i++) {
             // Check if there are bubbles in the bottom row
-            if (level.tiles[i][level.rows-1].type != -1) {
+            var tiletype = level.tiles[i][level.rows-1].type;
+            if (tiletype != -1 && tiletype != wall) {
                 // Game over
                 nextBubble();
                 setGameState(gamestates.gameover);
@@ -552,8 +555,7 @@ window.onload = function() {
 
         // Add a new row of bubbles at the top
         for (var i=0; i<level.columns; i++) {
-            // Add random, existing, colors
-            level.tiles[i][0].type = getExistingColor();
+            level.tiles[i][0].type = wall;//getExistingColor();
         }
     }
 
@@ -569,7 +571,7 @@ window.onload = function() {
         for (var i=0; i<level.columns; i++) {
             for (var j=0; j<level.rows; j++) {
                 var tile = level.tiles[i][j];
-                if (tile.type >= 0) {
+                if (tile.type >= 0 && tile.type != wall) {
                     if (!colortable[tile.type]) {
                         colortable[tile.type] = true;
                         foundcolors.push(tile.type);
@@ -601,7 +603,7 @@ window.onload = function() {
             var currenttile = toprocess.pop();
 
             // Skip processed and empty tiles
-            if (currenttile.type == -1) {
+            if (currenttile.type == -1 || currenttile.type == wall) {
                 continue;
             }
 
@@ -656,8 +658,10 @@ window.onload = function() {
                     // Check if the cluster is floating
                     var floating = true;
                     for (var k=0; k<foundcluster.length; k++) {
-                        if (foundcluster[k].y == 0) {
-                            // Tile is attached to the roof
+                        var x = foundcluster[k].x;
+                        var y = foundcluster[k].y;
+                        if (y == 0 || level.tiles[x][y-1].type == wall) {
+                            // Tile is attached to ceiling wall
                             floating = false;
                             break;
                         }
@@ -826,7 +830,9 @@ window.onload = function() {
                 var coord = getTileCoordinate(i, j);
 
                 // Check if there is a tile present
-                if (tile.type >= 0) {
+                if (tile.type == wall) {
+                  drawWallTile(i, j);
+                } else if (tile.type >= 0) {
                     // Support transparency
                     context.save();
                     context.globalAlpha = tile.alpha;
@@ -838,6 +844,11 @@ window.onload = function() {
                 }
             }
         }
+    }
+
+    function drawWallTile(i, j) {
+      context.fillStyle = "#303030";
+      context.fillRect(level.x + i*level.tilewidth, level.y + j*level.rowheight, level.tilewidth, level.rowheight);
     }
 
     // Render cluster
