@@ -19,15 +19,13 @@
 // ------------------------------------------------------------------------
 
 // TODO
-// Push down but dont add new rows; top of level must move down too
 // Series of levels
 //  Define levels
 //  Display current level onscreen
 //  Choice of level
 //  Remember level
-// Show indicator when level is about to drop
-// Background tileset
 // Bug: checks failure before success when making a cluster on the bottom row
+// Background tileset
 
 // The function gets called when the window is fully loaded
 window.onload = function() {
@@ -115,6 +113,9 @@ window.onload = function() {
     // Animation variables
     var animationstate = 0;
     var animationtime = 0;
+
+    var dropindicatortimer = 0;
+    var dropindicatorcolumn = 0;
 
     // Clusters
     var showcluster = false;
@@ -251,6 +252,14 @@ window.onload = function() {
 
         if (gamestate == gamestates.ready) {
             // Game is ready for player input
+            dropindicatortimer += dt;
+            if (dropindicatortimer > 0.05) {
+              dropindicatortimer -= 0.05;
+              dropindicatorcolumn++;
+              if (dropindicatorcolumn > level.columns*3) {
+                dropindicatorcolumn = 0;
+              }
+            }
         } else if (gamestate == gamestates.shootbubble) {
             // Bubble is moving
             stateShootBubble(dt);
@@ -831,19 +840,30 @@ window.onload = function() {
 
                 // Check if there is a tile present
                 if (tile.type == wall) {
-                  drawWallTile(i, j);
+                    drawWallTile(i, j);
                 } else if (tile.type >= 0) {
-                    // Support transparency
-                    context.save();
-                    context.globalAlpha = tile.alpha;
+                    if (turncounter >= level.dropPeriod-2 && dropindicatorcolumn == i) {
+                      drawBubbleHighlight(coord.tilex, coord.tiley + shift);
+                    } else {
+                      // Support transparency
+                      context.save();
+                      context.globalAlpha = tile.alpha;
 
-                    // Draw the tile using the color
-                    drawBubble(coord.tilex, coord.tiley + shift, tile.type, tile.alpha);
+                      // Draw the tile using the color
+                      drawBubble(coord.tilex, coord.tiley + shift, tile.type, tile.alpha);
 
-                    context.restore();
+                      context.restore();
+                    }
                 }
             }
         }
+    }
+
+    function drawBubbleHighlight(x, y) {
+      context.fillStyle = "#ffffff";
+      context.beginPath();
+      context.arc(x+level.tilewidth/2, y+level.tileheight/2, level.tilewidth/2, 0, 7);
+      context.fill();
     }
 
     function drawWallTile(i, j) {
