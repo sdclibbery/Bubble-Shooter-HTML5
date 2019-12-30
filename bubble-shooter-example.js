@@ -19,7 +19,6 @@
 // ------------------------------------------------------------------------
 
 // TODO
-// First bubble is always red
 // Bug: checks failure before success when making a cluster on the bottom row
 // Background tileset
 
@@ -983,6 +982,7 @@ window.onload = function() {
         createHardLevel(level.difficulty);
 
         // Init the next bubble and set the current bubble
+        nextBubble();
         nextBubble();
     }
 
