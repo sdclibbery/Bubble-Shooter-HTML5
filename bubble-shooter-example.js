@@ -25,6 +25,8 @@
 //  Display current level onscreen
 //  Choice of level
 //  Remember level
+// Show win or lose on game over screen
+// Increase difficulty when win
 // Background tileset
 
 // The function gets called when the window is fully loaded
@@ -55,6 +57,7 @@ window.onload = function() {
         radius: 15,     // Bubble collision radius
         tiles: [],      // The two-dimensional tile array
         dropPeriod: 8,  // The number of non-cluster shots between the bubbles dropping down
+        difficulty: parseInt(new URL(window.location.href).hash.substring(1), 10) || 15
     };
 
     var wall = 99;
@@ -770,14 +773,12 @@ window.onload = function() {
         context.fillStyle = "#656565";
         context.fillRect(level.x - 4, level.y - 4 + level.height + 4 - yoffset, level.width + 8, 2*level.tileheight + 3);
 
-        // Draw score
+        // Draw difficulty
         context.fillStyle = "#ffffff";
         context.font = "18px Verdana";
         var scorex = level.x + level.width - 150;
         var scorey = level.y+level.height + level.tileheight - yoffset - 8;
-        drawCenterText("Score:", scorex, scorey, 150);
-        context.font = "24px Verdana";
-        drawCenterText(score, scorex, scorey+30, 150);
+        drawCenterText("Level: "+level.difficulty, scorex, scorey, 150);
 
         // Render cluster
         if (showcluster) {
@@ -862,6 +863,7 @@ window.onload = function() {
         }
     }
 
+    // Render highlighted bubble
     function drawBubbleHighlight(x, y) {
       context.fillStyle = "#ffffff";
       context.beginPath();
@@ -869,6 +871,7 @@ window.onload = function() {
       context.fill();
     }
 
+    // Render a tile that contains wall
     function drawWallTile(i, j) {
       context.fillStyle = "#303030";
       context.fillRect(level.x + i*level.tilewidth, level.y + j*level.rowheight, level.tilewidth, level.rowheight);
@@ -970,8 +973,7 @@ window.onload = function() {
 
         // Create the level
         //createRandomLevel();
-        var difficulty = parseInt(new URL(window.location.href).hash.substring(1), 10) || 15;
-        createHardLevel(difficulty);
+        createHardLevel(level.difficulty);
 
         // Init the next bubble and set the current bubble
         nextBubble();
