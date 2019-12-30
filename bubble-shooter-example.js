@@ -19,14 +19,8 @@
 // ------------------------------------------------------------------------
 
 // TODO
-// Shoot bubble on press not release
+// First bubble is always red
 // Bug: checks failure before success when making a cluster on the bottom row
-// Series of levels
-//  Display current level onscreen
-//  Choice of level
-//  Remember level
-// Show win or lose on game over screen
-// Increase difficulty when win
 // Background tileset
 
 // The function gets called when the window is fully loaded
@@ -57,7 +51,7 @@ window.onload = function() {
         radius: 15,     // Bubble collision radius
         tiles: [],      // The two-dimensional tile array
         dropPeriod: 8,  // The number of non-cluster shots between the bubbles dropping down
-        difficulty: parseInt(new URL(window.location.href).hash.substring(1), 10) || 15
+        difficulty: 1   // Difficulty level
     };
 
     var wall = 99;
@@ -109,6 +103,7 @@ window.onload = function() {
 
     // Score
     var score = 0;
+    var won = false;
 
     var turncounter = 0;
     var rowoffset = 0;
@@ -189,6 +184,12 @@ window.onload = function() {
 
         level.width = level.columns * level.tilewidth + level.tilewidth/2;
         level.height = (level.rows-1) * level.rowheight + level.tileheight;
+
+        var difficulty = parseInt(window.localStorage.getItem('difficulty'), 10);
+        console.log('Retrieved difficulty: '+difficulty)
+        if (difficulty) {
+          level.difficulty = difficulty;
+        }
 
         // Init the player
         player.x = level.x + level.width/2 - level.tilewidth/2;
@@ -449,7 +450,10 @@ window.onload = function() {
                     setGameState(gamestates.ready);
                     dropindicatorcolumn = 0;
                 } else {
-                    // No tiles left, game over
+                    // No tiles left; won the game!
+                    won = true;
+                    level.difficulty++;
+                    window.localStorage.setItem('difficulty', level.difficulty);
                     setGameState(gamestates.gameover);
                 }
             }
@@ -550,8 +554,9 @@ window.onload = function() {
             // Check if there are bubbles in the bottom row
             var tiletype = level.tiles[i][level.rows-1].type;
             if (tiletype != -1 && tiletype != wall) {
-                // Game over
+                // Game over: lost
                 nextBubble();
+                won = false;
                 setGameState(gamestates.gameover);
                 return true;
             }
@@ -801,6 +806,7 @@ window.onload = function() {
 
             context.fillStyle = "#ffffff";
             context.font = "24px Verdana";
+            drawCenterText(won?'You won!':'You lost', level.x, level.y + level.height / 2 - 30, level.width);
             drawCenterText("Game Over!", level.x, level.y + level.height / 2 + 10, level.width);
             drawCenterText("Click to start", level.x, level.y + level.height / 2 + 40, level.width);
         }
@@ -962,7 +968,8 @@ window.onload = function() {
     // Start a new game
     function newGame() {
         // Reset score
-        score = 0;
+        score = 0
+        won = false;
 
         turncounter = 0;
         rowoffset = 0;
