@@ -900,12 +900,12 @@ window.onload = function() {
         var centery = player.y + level.tileheight/2;
 
         // Draw player background circle
-        context.fillStyle = "#7a7a7a";
+        context.fillStyle = "#8a8a8a";
         context.beginPath();
         context.arc(centerx, centery, level.radius+12, 0, 2*Math.PI, false);
         context.fill();
-        context.lineWidth = 2;
-        context.strokeStyle = "#8c8c8c";
+        context.lineWidth = 3;
+        context.strokeStyle = "#b0b0b0";
         context.stroke();
 
         // Draw the angle
@@ -917,7 +917,7 @@ window.onload = function() {
         context.stroke();
 
         // Draw the next bubble
-        drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype, 1);
+        drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype, 1.8);
 
         // Draw the bubble
         if (player.bubble.visible) {
