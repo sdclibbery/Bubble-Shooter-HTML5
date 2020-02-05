@@ -172,6 +172,12 @@ window.onload = function() {
 //        canvas.addEventListener("mousedown", onMouseDown);
         canvas.addEventListener("touchstart", onTouchStart);
 
+        document.addEventListener("keydown", (event) => {
+          player.tiletype = event.key;
+          player.bubble.tiletype = event.key;
+          player.nextbubble.tiletype = event.key;
+        });
+
         // Initialize the two-dimensional tile array
         for (var i=0; i<level.columns; i++) {
             level.tiles[i] = [];
@@ -184,7 +190,7 @@ window.onload = function() {
         level.width = level.columns * level.tilewidth + level.tilewidth/2;
         level.height = (level.rows-1) * level.rowheight + level.tileheight;
 
-        var difficulty = parseInt(window.localStorage.getItem('difficulty'), 10);
+        var difficulty = 30;//parseInt(window.localStorage.getItem('difficulty'), 10);
         console.log('Retrieved difficulty: '+difficulty)
         if (difficulty) {
           level.difficulty = difficulty;
